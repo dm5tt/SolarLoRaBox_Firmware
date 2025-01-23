@@ -3,7 +3,7 @@ board_runner_args(stm32cubeprogrammer "--port=swd" "--reset-mode=hw")
 
 board_runner_args(pyocd "--target=stm32u083mctx")
 
-board_runner_args(jlink "--device=solarlorabox" "--reset-after-load")
+board_runner_args(jlink "--device=STM32U083CC" "--reset-after-load")
 
 # keep first
 include(${ZEPHYR_BASE}/boards/common/stm32cubeprogrammer.board.cmake)
