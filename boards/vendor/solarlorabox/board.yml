@@ -1,0 +1,6 @@
+board:
+  name: solarlorabox 
+  full_name: SolarLoraBox 
+  vendor: dm5tt 
+  socs:
+    - name: stm32u083xx
