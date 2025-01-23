@@ -1,5 +1,5 @@
-identifier: ssolarlorabox
-name: SolarLoRabox
+identifier: solarlorabox
+name: solarlorabox 
 type: mcu
 arch: arm
 toolchain:
