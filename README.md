@@ -2,4 +2,3 @@
 
 This is a Zephyr based firmware for the SolarLoRaBox.
 
-Heavily in WIP
