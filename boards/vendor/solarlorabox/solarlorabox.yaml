@@ -1,5 +1,5 @@
-identifier: stm32u083c_dk
-name: ST STM32U083C-DK Discovery Kit
+identifier: ssolarlorabox
+name: SolarLoRabox
 type: mcu
 arch: arm
 toolchain:
@@ -7,13 +7,8 @@ toolchain:
   - gnuarmemb
 supported:
   - adc
-  - arduino_gpio
-  - arduino_serial
-  - arduino_i2c
-  - dac
   - gpio
   - i2c
-  - pwm
   - usart
 ram: 40
 flash: 256
