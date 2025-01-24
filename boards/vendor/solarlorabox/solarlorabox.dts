@@ -97,6 +97,16 @@
 	pinctrl-0 = <&spi1_nss_pa4 &spi1_sck_pa5 &spi1_miso_pa6 &spi1_mosi_pa7>;
 	pinctrl-names = "default";
 	status = "okay";
+	lora: lora@0 {
+		compatible = "semtech,sx1262";
+		reg = <0>;
+		reset-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
+		busy-gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
+		dio1-gpios = <&gpiob 2 GPIO_ACTIVE_HIGH>;
+		tcxo-power-startup-delay-ms = <5>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
+	};
+
 };
 
 &timers1 {
