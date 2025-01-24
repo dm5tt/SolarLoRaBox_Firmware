@@ -10,7 +10,7 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
 / {
-	model = "STMicroelectronics STM32U83C-DK board";
+	model = "SolarLoraBox";
 	compatible = "st,stm32u083c-dk";
 
 	#address-cells = <1>;
