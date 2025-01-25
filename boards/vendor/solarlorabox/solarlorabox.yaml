@@ -9,6 +9,8 @@ supported:
   - adc
   - gpio
   - i2c
+  - spi
   - usart
+  - lora
 ram: 40
 flash: 256
