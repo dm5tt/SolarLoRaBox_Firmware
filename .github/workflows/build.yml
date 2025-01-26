@@ -3,8 +3,6 @@ name: Build
 on:
   push:
   pull_request:
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -30,11 +28,18 @@ jobs:
           app-path: SolarLoRaBox_Firmware
           toolchains: arm-zephyr-eabi
 
-      - name: Build firmware
+      - name: Build all firmware apps
         working-directory: SolarLoRaBox_Firmware
         shell: bash
         run: |
           if [ "${{ runner.os }}" = "Windows" ]; then
             EXTRA_TWISTER_FLAGS="--short-build-path -O/tmp/twister-out"
           fi
-          west twister -T app -v --inline-logs --integration $EXTRA_TWISTER_FLAGS
+
+          # Find all application directories under "apps"
+          for app_dir in apps/*; do
+            if [ -d "$app_dir" ]; then
+              echo "Building application in $app_dir"
+              west twister -T "$app_dir" -v --inline-logs --integration $EXTRA_TWISTER_FLAGS
+            fi
+          done
