@@ -22,7 +22,5 @@ manifest:
         name-allowlist:
           - cmsis      # required by the ARM port
           - hal_stm32  # required by the nucleo_f302r8 board (STM32 based)
-    - name: loramac-node
-      revision: fb00b383072518c918e2258b0916c996f2d4eebe
-      path: modules/lib/loramac-node
-
+          - loramac-node
+          - tinycrypt
