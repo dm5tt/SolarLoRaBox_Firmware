@@ -9,11 +9,13 @@
 #include <zephyr/device.h>
 #include <zephyr/lorawan/lorawan.h>
 #include <zephyr/kernel.h>
+#include <zephyr/random/random.h>
 
 /* Customize based on network configuration */
-#define LORAWAN_DEV_EUI			{ 0x70, 0xB3, 0xD5, 0x7E, 0xD0, 0x06, 0xDB, 0xC3 }
-#define LORAWAN_JOIN_EUI		{ 0x11, 0x11, 0x00, 0x00, 0x00, 0x00, 0x22, 0x22 }
-#define LORAWAN_APP_KEY			{ 0x88, 0x38, 0x4D, 0x88, 0x51, 0x35, 0x11, 0x34, 0xE7, 0x69, 0xD0, 0x26, 0xF5, 0x11, 0xB3, 0xAA }
+
+#define LORAWAN_DEV_EUI			{ 0x00, 0xB3, 0xD5, 0x7E, 0x00, 0x00, 0x00, 0x00}  /* MSB! Dummy Key - doesn't work! */
+#define LORAWAN_JOIN_EUI		{ 0x00, 0x22, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00}  /* MSB!  Dummy Key - doesn't work! */
+#define LORAWAN_APP_KEY			{ 0x00, 0x34, 0x51, 0x18, 0xE9, 0x97, 0xC7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} /* MSB!  Dummy Key - doesn't work! */
 
 #define DELAY K_MSEC(10000)
 
@@ -70,18 +72,13 @@ int main(void)
 		return 0;
 	}
 
-	ret = lorawan_set_datarate(LORAWAN_DR_12);
-	if (ret < 0) {
-		LOG_ERR("lorawan_datarate failed: %d", ret);
-		return 0;
-	}
-
-
 	ret = lorawan_start();
 	if (ret < 0) {
 		LOG_ERR("lorawan_start failed: %d", ret);
 		return 0;
 	}
+
+	lorawan_enable_adr(true);
 
 	lorawan_register_downlink_callback(&downlink_cb);
 	lorawan_register_dr_changed_callback(lorwan_datarate_changed);
@@ -91,7 +88,8 @@ int main(void)
 	join_cfg.otaa.join_eui = join_eui;
 	join_cfg.otaa.app_key = app_key;
 	join_cfg.otaa.nwk_key = app_key;
-	join_cfg.otaa.dev_nonce = 0u;
+	join_cfg.otaa.dev_nonce = sys_rand16_get();
+
 
 	LOG_INF("Joining network over OTAA");
 	ret = lorawan_join(&join_cfg);
