@@ -105,9 +105,10 @@
 		reset-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;
 		busy-gpios = <&gpiob 0 GPIO_ACTIVE_HIGH>;
 		dio1-gpios = <&gpiob 2 GPIO_ACTIVE_HIGH>;
+		dio2-tx-enable;
 		dio3-tcxo-voltage = <SX126X_DIO3_TCXO_3V3>;
-		tcxo-power-startup-delay-ms = <10>;
-		spi-max-frequency = <DT_FREQ_M(10)>;
+		tcxo-power-startup-delay-ms = <3>;
+		spi-max-frequency = <DT_FREQ_M(1)>;
 		status = "okay";
 	};
 
