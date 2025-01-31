@@ -36,24 +36,6 @@
 		led0 = &green_led_1;
 		lora0 = &lora;
 	};
-    soc {
-		usart4: serial@40004C00 {
-			compatible = "st,stm32-usart", "st,stm32-uart";
-			reg = <0x40004C00 0x400>;
-			clocks = <&rcc STM32_CLOCK(APB1, 19U)>;
-			resets = <&rctl STM32_RESET(APB1L, 19U)>;
-			interrupts = <30 0>;
-			status = "disabled";
-			 pinctrl-0 = <&usart4_tx_pa0 &usart4_rx_pa1>;
-        		pinctrl-names = "default";
-        		current-speed = <115200>;
-        		status = "okay";
-
-
-		};
-
-    };
-
 };
 
 &clk_hsi {
