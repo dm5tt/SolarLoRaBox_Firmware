@@ -88,7 +88,7 @@ int main(void)
 	join_cfg.otaa.join_eui = join_eui;
 	join_cfg.otaa.app_key = app_key;
 	join_cfg.otaa.nwk_key = app_key;
-	join_cfg.otaa.dev_nonce = sys_rand16_get();
+	join_cfg.otaa.dev_nonce = 12345;
 
 
 	LOG_INF("Joining network over OTAA");
