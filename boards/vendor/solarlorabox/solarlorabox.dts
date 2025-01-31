@@ -38,9 +38,29 @@
 	};
 };
 
+
+&iwdg {
+	status = "okay";
+};
+
 &clk_hsi {
 	status = "okay";
 };
+
+&clk_hsi48 {
+	status = "okay";
+};
+
+&clk_lsi {
+	status = "okay";
+};
+
+&clk_msi {
+	status = "okay";
+	msi-range = <11>;
+	msi-pll-mode;
+};
+
 
 &pll {
 	div-m = <1>;
@@ -96,24 +116,46 @@
 
 };
 
-&timers1 {
-	st,prescaler = <10000>;
+&usart4 {
+	pinctrl-0 = <&usart4_tx_pa0 &usart4_rx_pa1>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
 	status = "okay";
-
-	pwm1: pwm {
-		status = "okay";
-		pinctrl-0 = <&tim1_ch1_pa8>;
-		pinctrl-names = "default";
-	};
 };
 
-&timers2 {
-	st,prescaler = <10000>;
+
+zephyr_udc0: &usb {
+	clocks = <&rcc STM32_CLOCK(APB1, 13U)>,
+		 <&rcc STM32_SRC_HSI48 CLK48_SEL(1)>;
+	pinctrl-0 = <&usb_dm_pa11 &usb_dp_pa12>;
+	pinctrl-names = "default";
 	status = "okay";
 
-	pwm2: pwm {
-		pinctrl-0 = <&tim2_ch1_pa5>;
-		pinctrl-names = "default";
-		status = "okay";
+	usb_cdc_acm_uart: cdc_acm_uart {
+		compatible = "zephyr,cdc-acm-uart";
 	};
+
+};
+&dma1 {
+	status = "okay";
+};
+
+&dmamux1 {
+	status = "okay";
+};
+
+&rng {
+	clocks = <&rcc STM32_CLOCK(AHB1, 18U)>,
+		<&rcc STM32_SRC_HSI48 CLK48_SEL(1)>;
+	status = "okay";
+};
+
+&aes {
+	status = "okay";
+};
+
+&rtc {
+	clocks = <&rcc STM32_CLOCK(APB1, 10U)>,
+		 <&rcc STM32_SRC_LSE RTC_SEL(1)>;
+	status = "okay";
 };
