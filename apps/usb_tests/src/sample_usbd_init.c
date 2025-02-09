@@ -86,6 +86,12 @@ static void sample_fix_code_triple(struct usbd_context *uds_ctx,
 	}
 }
 
+/* By default, do not register the USB DFU class DFU mode instance. */
+static const char *const blocklist[] = {
+	"dfu_dfu",
+	NULL,
+};
+
 struct usbd_context *sample_usbd_setup_device(usbd_msg_cb_t msg_cb)
 {
 	int err;
@@ -124,7 +130,7 @@ struct usbd_context *sample_usbd_setup_device(usbd_msg_cb_t msg_cb)
 			return NULL;
 		}
 
-		err = usbd_register_all_classes(&sample_usbd, USBD_SPEED_HS, 1);
+		err = usbd_register_all_classes(&sample_usbd, USBD_SPEED_HS, 1, blocklist);
 		if (err) {
 			LOG_ERR("Failed to add register classes");
 			return NULL;
@@ -143,7 +149,7 @@ struct usbd_context *sample_usbd_setup_device(usbd_msg_cb_t msg_cb)
 	/* doc configuration register end */
 
 	/* doc functions register start */
-	err = usbd_register_all_classes(&sample_usbd, USBD_SPEED_FS, 1);
+	err = usbd_register_all_classes(&sample_usbd, USBD_SPEED_FS, 1, blocklist);
 	if (err) {
 		LOG_ERR("Failed to add register classes");
 		return NULL;
