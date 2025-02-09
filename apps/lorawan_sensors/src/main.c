@@ -28,22 +28,20 @@ static const struct adc_channel_cfg channel_cfg[] = {
 		.channel_id = 6, // ADC1_IN6 (PA2)
 		.gain = ADC_GAIN_1,
 		.reference = ADC_REF_INTERNAL,
-		.acquisition_time = ADC_ACQ_TIME_DEFAULT,
+		.acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_TICKS, 40),
 	},
 	{
 		.channel_id = 7, // ADC1_IN7 (PA3)
 		.gain = ADC_GAIN_1,
 		.reference = ADC_REF_INTERNAL,
-		.acquisition_time =  ADC_ACQ_TIME_DEFAULT,
-	}
-};
+		.acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_TICKS, 40),
+	}};
 
 struct adc_sequence sequence = {
 	.buffer = sample_buffer,
 	.buffer_size = sizeof(sample_buffer),
 	.resolution = 12, // 12-bit ADC
-	.channels = BIT(6) | BIT(7)
-};
+	.channels = BIT(6) | BIT(7)};
 
 int main(void)
 {
@@ -67,13 +65,16 @@ int main(void)
 
 	/* ADC Configuration */
 	const struct device *adc_dev = DEVICE_DT_GET(DT_ALIAS(adc));
-	if (!device_is_ready(adc_dev)) {
+	if (!device_is_ready(adc_dev))
+	{
 		LOG_ERR("ADC device not ready");
 		return -1;
 	}
 
-	for (int i = 0; i < 2; i++) {
-		if (adc_channel_setup(adc_dev, &channel_cfg[i]) < 0) {
+	for (int i = 0; i < 2; i++)
+	{
+		if (adc_channel_setup(adc_dev, &channel_cfg[i]) < 0)
+		{
 			LOG_ERR("Failed to configure ADC channel %d", i);
 			return -1;
 		}
@@ -82,31 +83,47 @@ int main(void)
 	/* Join LoRaWAN Network */
 	LOG_INF("Joining network over OTAA");
 	unsigned int attempts = 0;
-	do {
-		if (attempts == 10) {
+	do
+	{
+		if (attempts == 10)
+		{
 			LOG_ERR("lorawan_join_network failed after multiple attempts.");
 			return -1;
 		}
 		ret = lorawan_join(&join_cfg);
-		if (ret != 0) {
+		if (ret != 0)
+		{
 			LOG_ERR("lorawan_join_network failed: %d - Retrying", ret);
 			k_sleep(K_MINUTES(1));
+			attempts++;
+
+
 		}
-		attempts++;
 	} while (ret != 0);
 
-	while (1) {
+	while (1)
+	{
 		/* Read ADC values */
-		if (adc_read(adc_dev, &sequence) < 0) {
+		if (adc_read(adc_dev, &sequence) < 0)
+		{
 			LOG_ERR("ADC read failed");
 			return -1;
 		}
 
+		/* Assuming sample_buffer contains the ADC values you want to log */
+		for (int i = 0; i < ARRAY_SIZE(sample_buffer); i++)
+		{
+			LOG_INF("ADC[%d] = %d", i, sample_buffer[i]);
+		}
+
 		/* Send ADC data over LoRa */
-		ret = lorawan_send(1, (uint8_t *)sample_buffer, sizeof(sample_buffer), LORAWAN_MSG_UNCONFIRMED);
-		if (ret < 0) {
+		ret = lorawan_send(2, (uint8_t *)sample_buffer, sizeof(sample_buffer), LORAWAN_MSG_UNCONFIRMED);
+		if (ret < 0)
+		{
 			LOG_ERR("LoRa send failed: %d", ret);
-		} else {
+		}
+		else
+		{
 			LOG_INF("LoRa message sent");
 		}
 		k_sleep(K_MINUTES(25));

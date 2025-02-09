@@ -5,9 +5,9 @@
 #include <zephyr/kernel.h>
 #include <zephyr/lorawan/lorawan.h>
 
-#define LORAWAN_IMPL_DEV_EUI			{ 0x00, 0xB3, 0xD5, 0x7E, 0x00, 0x00, 0x00, 0x00}  /* MSB! Dummy Key - doesn't work! */
-#define LORAWAN_IMPL_JOIN_EUI	  		{ 0x00, 0x22, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00}  /* MSB!  Dummy Key - doesn't work! */
-#define LORAWAN_IMPL_APP_KEY			{ 0x00, 0x34, 0x51, 0x18, 0xE9, 0x97, 0xC7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} /* MSB!  Dummy Key - doesn't work! */
+#define LORAWAN_IMPL_DEV_EUI			{ }  /* MSB! Dummy Key - doesn't work! */
+#define LORAWAN_IMPL_JOIN_EUI	  		{ }  /* MSB!  Dummy Key - doesn't work! */
+#define LORAWAN_IMPL_APP_KEY			{ } /* MSB!  Dummy Key - doesn't work! */
 
 int lorawan_impl_init(const struct device *lora_dev);
 

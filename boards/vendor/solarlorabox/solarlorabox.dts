@@ -88,7 +88,7 @@
 		 <&rcc STM32_SRC_HSI ADC_SEL(2)>;
 	st,adc-prescaler = <4>;
 	status = "okay";
-	vref-mv = <3300>;
+	vref-mv = <3000>;
 };
 
 &i2c1 {
