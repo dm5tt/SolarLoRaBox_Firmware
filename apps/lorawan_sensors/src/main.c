@@ -83,24 +83,24 @@ static int join_lorawan(const struct device *lora_dev)
     return -1;
 }
 
-void main(void)
+int main(void)
 {
     const struct device *lora_dev = DEVICE_DT_GET(DT_ALIAS(lora0));
     lorawan_impl_init(lora_dev);
 
     if (join_lorawan(lora_dev) < 0) {
-        return;
+        return -1;
     }
 
     const struct device *adc_dev = DEVICE_DT_GET(DT_ALIAS(adc));
     if (configure_adc(adc_dev) < 0) {
-        return;
+        return -1;
     }
 
     while (1) {
         if (adc_read(adc_dev, &sequence) < 0) {
             LOG_ERR("ADC read failed");
-            return;
+            return -1;
         }
 
         for (int i = 0; i < ADC_CHANNEL_COUNT; i++) {
